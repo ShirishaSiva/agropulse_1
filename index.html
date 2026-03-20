@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AgroPulse | Farm-Shield</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- High contrast, modern fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-satellite-dish"></i> AGROPULSE
+        </div>
+        <button id="settings-toggle" class="icon-btn" title="Settings">
+            <i class="fa-solid fa-gear"></i>
+        </button>
+    </header>
+
+    <div id="settings-panel" class="panel hidden">
+        <h2>System Configuration</h2>
+        <div class="input-group">
+            <label for="api-key"><i class="fa-solid fa-key"></i> Gemini API Key</label>
+            <input type="password" id="api-key" placeholder="Enter your key here...">
+        </div>
+        <div class="input-group">
+            <label for="language-select"><i class="fa-solid fa-language"></i> Output Language</label>
+            <select id="language-select">
+                <option value="English">English</option>
+                <option value="Swahili">Swahili</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Spanish">Spanish</option>
+                <option value="French">French</option>
+            </select>
+        </div>
+        <button id="save-settings-btn" class="btn primary-btn">Save Settings</button>
+    </div>
+
+    <main id="main-content">
+        <!-- Input Layer -->
+        <section class="card input-section" id="input-layer">
+            <h2 class="section-title"><i class="fa-solid fa-tower-broadcast"></i> Data Intake</h2>
+            <p class="section-desc">Upload field data for immediate analysis.</p>
+            
+            <div class="upload-grid">
+                <!-- Visual Input -->
+                <div class="upload-box" id="visual-upload-box">
+                    <input type="file" id="visual-input" accept="image/*" class="file-input">
+                    <label for="visual-input" class="upload-label">
+                        <i class="fa-solid fa-camera"></i>
+                        <span>Capture/Upload Crop</span>
+                    </label>
+                    <div id="visual-preview" class="preview hidden"></div>
+                </div>
+
+                <!-- Audio Input -->
+                <div class="upload-box" id="audio-upload-box">
+                    <input type="file" id="audio-input" accept="audio/*" class="file-input">
+                    <label for="audio-input" class="upload-label">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                        <span>Upload Audio Broadcast</span>
+                    </label>
+                    <div id="audio-preview" class="preview hidden">
+                        <i class="fa-solid fa-file-audio"></i> <span id="audio-filename">file.mp3</span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="analyze-btn" class="btn action-btn disabled"><i class="fa-solid fa-bolt"></i> RUN ANALYSIS</button>
+            
+            <!-- Loading State -->
+            <div id="loading-state" class="hidden">
+                <div class="spinner"></div>
+                <p>Synthesizing environmental data...</p>
+            </div>
+        </section>
+
+        <!-- Output Layer: Farm-Shield Dashboard -->
+        <section id="dashboard" class="hidden">
+            <!-- Immediate Action -->
+            <div class="card status-card" id="immediate-action-card">
+                <div class="card-header">
+                    <h3>IMMEDIATE ACTION</h3>
+                    <div class="verification-badge">
+                        <i class="fa-solid fa-shield-check"></i> Verified Model
+                    </div>
+                </div>
+                <div class="action-content">
+                    <i id="action-icon" class="fa-solid fa-triangle-exclamation"></i>
+                    <h1 id="action-text">WAITING...</h1>
+                </div>
+                <p id="action-details" class="details-text">---</p>
+                <div class="source-tag">
+                    <i class="fa-solid fa-link"></i> Sources: <span id="action-sources">Analyzing...</span>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Threat Map -->
+                <div class="card map-card">
+                    <h3>THREAT RADAR</h3>
+                    <div class="radar-container">
+                        <div class="radar">
+                            <div class="sweep"></div>
+                            <div id="threat-blip" class="blip hidden"></div>
+                        </div>
+                    </div>
+                    <div class="map-stats">
+                        <div class="stat">
+                            <span class="stat-label">Vector</span>
+                            <span class="stat-val" id="threat-distance">-- km</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">ETA</span>
+                            <span class="stat-val" id="threat-eta">-- hrs</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profit Optimizer -->
+                <div class="card profit-card">
+                    <h3>PROFIT OPTIMIZER</h3>
+                    <div class="market-indicator" id="market-indicator">
+                        <span class="indicator-arrow" id="market-arrow">
+                            <i class="fa-solid fa-minus"></i>
+                        </span>
+                        <h2 id="market-advice">HOLD</h2>
+                    </div>
+                    <p id="market-reason" class="details-text">Awaiting market correlation...</p>
+                </div>
+            </div>
+            
+            <button id="reset-btn" class="btn secondary-btn" style="margin-top: 20px; width: 100%;">
+                <i class="fa-solid fa-rotate-left"></i> Start New Intake
+            </button>
+        </section>
+    </main>
+
+    <!-- Import Map for Gemini via ESM -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@google/generative-ai": "https://esm.run/@google/generative-ai"
+            }
+        }
+    </script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
